@@ -3,29 +3,18 @@ import {
   View,
   Text,
   FlatList,
-  Button,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { FontAwesome, Feather } from "@expo/vector-icons";
-import { addPost, deletePost } from "../actions/blogAction";
+import { deletePost } from "../actions/blogAction";
 import { useBlogContext } from "../context/BlogContext";
 
 const IndexScreen = ({ navigation }) => {
   const [state, dispatch] = useBlogContext();
 
-  const lastId = state?.blogs[0]?.id;
-  const newId = lastId ? +lastId + 1 : 1;
-
   return (
     <View style={{ flex: 1 }}>
-      <Button
-        title="ADD POST"
-        onPress={() =>
-          addPost(dispatch, { id: `${newId}`, title: `Blog Post #${newId}` })
-        }
-      />
-
       <FlatList
         data={state.blogs}
         keyExtractor={({ id }) => id}
@@ -69,7 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   icon: {
-    fontSize: 24,
+    fontSize: 28,
     color: "#000",
   },
   title: {
