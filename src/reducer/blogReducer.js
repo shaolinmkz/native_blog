@@ -6,9 +6,16 @@ import {
   DELETE_POST,
 } from "../actionTypes";
 
+const dummyPost = [
+  {
+    id: "1",
+    title: "God is love ❣️❤️",
+    content: 'Love of God can mean either love for God or love by God. Love for God (philotheia) is associated with the concepts of worship, and devotions towards God...',
+  },
+];
 
 export const initialBlogState = {
-  blogs: [],
+  blogs: dummyPost,
   singleBlog: null,
 };
 
@@ -45,4 +52,3 @@ export default (state = initialBlogState, { type, payload }) => {
       return state;
   }
 };
-

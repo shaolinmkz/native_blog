@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import { addPost } from "../actions/blogAction";
+import { editPost } from "../actions/blogAction";
 import { useBlogContext } from "../context/BlogContext";
 
 
@@ -16,21 +16,29 @@ export default ({ navigation }) => {
     title: ''
   });
 
-  const [state, dispatch] = useBlogContext();
+  const id = navigation.getParam('id');
 
-  const lastId = state?.blogs[0]?.id;
-  const newId = lastId ? +lastId + 1 : 1;
+  const [state, dispatch] = useBlogContext();
 
   const handleChange = ({ name, value }) => {
     setPost(prevState => ({ ...prevState, [name]: value }))
   };
 
   const handleSubmit = () => {
-    if(post.title && post.content) {
-      addPost(dispatch, { id: `${newId}`, ...post });
+    if (id) {
+      editPost(dispatch, post);
       navigation.navigate('IndexScreen');
     }
   };
+
+  useEffect(() => {
+    if(id) {
+      const post = state.blogs.find(({ id: blogId }) => blogId === id);
+      setPost(post);
+    } else {
+      navigation.navigate('IndexScreen');
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
