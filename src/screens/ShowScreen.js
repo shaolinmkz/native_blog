@@ -13,14 +13,27 @@ const ShowScreen = ({ navigation }) => {
   const post = state.blogs.find(({ id: blogId }) => blogId === id)
 
   return (
-    <View>
-      <Text>{post?.title}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>{post?.title}</Text>
+      <Text style={styles.content}>{post?.content}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textTransform: 'uppercase'
+  },
+  content: {
+    fontSize: 14,
+  },
 });
 
 export default ShowScreen;

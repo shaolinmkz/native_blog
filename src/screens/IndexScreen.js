@@ -15,14 +15,14 @@ const IndexScreen = ({ navigation }) => {
   const [state, dispatch] = useBlogContext();
 
   const lastId = state?.blogs[0]?.id;
-  const mockId = lastId ? +lastId + 1 : 1;
+  const newId = lastId ? +lastId + 1 : 1;
 
   return (
     <View style={{ flex: 1 }}>
       <Button
         title="ADD POST"
         onPress={() =>
-          addPost(dispatch, { id: `${mockId}`, title: `Blog Post #${mockId}` })
+          addPost(dispatch, { id: `${newId}`, title: `Blog Post #${newId}` })
         }
       />
 
@@ -34,7 +34,7 @@ const IndexScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("ShowScreen", { id: item.id })}
           >
             <View style={styles.row}>
-              <Text>{item?.title}</Text>
+              <Text style={styles.title}>{item?.title}</Text>
               <TouchableOpacity
                 onPress={() => deletePost(dispatch, { id: item.id })}
               >
@@ -71,6 +71,9 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 24,
     color: "#000",
+  },
+  title: {
+    textTransform: 'capitalize'
   },
 });
 
