@@ -1,39 +1,61 @@
 import React from "react";
-import { View, Text, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { addPost, deletePost } from "../actions/blogAction";
 import { useBlogContext } from "../context/BlogContext";
 
 function IndexScreen() {
   const [state, dispatch] = useBlogContext();
 
-  const mockId = state?.blogs?.length + 1;
+  const lastId = state?.blogs[0]?.id;
+  const mockId =  lastId ? +lastId + 1 : 1;
 
   return (
     <View style={{ flex: 1 }}>
       <Button
-        title={`ADD POST #${mockId}`}
+        title="ADD POST"
         onPress={() =>
           addPost(dispatch, { id: `${mockId}`, title: `Blog Post #${mockId}` })
         }
       />
-      {!!state?.blogs?.length && (
-        <Button
-          title={`DELETE POST #${mockId - 1}`}
-          onPress={() =>
-            deletePost(dispatch, {
-              id: `${mockId - 1}`,
-              title: `Blog Post #${mockId - 1}`,
-            })
-          }
-        />
-      )}
+
       <FlatList
         data={state.blogs}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <Text>{item?.title}</Text>}
+        renderItem={({ item }) => (
+          <View style={styles.row}>
+            <Text>{item?.title}</Text>
+            <TouchableOpacity onPress={() => deletePost(dispatch, { id: item.id })}>
+              <FontAwesome name="trash" style={styles.icon} />
+            </TouchableOpacity>
+          </View>
+        )}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "grey",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
+  icon: {
+    fontSize: 24,
+    color: "#000",
+  },
+});
 
 export default IndexScreen;

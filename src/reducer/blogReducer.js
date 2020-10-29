@@ -6,14 +6,9 @@ import {
   DELETE_POST,
 } from "../actionTypes";
 
-const mockBlogPost = [
-  { title: "Blog Post #3", id: "3" },
-  { title: "Blog Post #2", id: "2" },
-  { title: "Blog Post #1", id: "1" },
-];
 
 export const initialBlogState = {
-  blogs: mockBlogPost,
+  blogs: [],
   singleBlog: null,
 };
 
