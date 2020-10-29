@@ -1,17 +1,10 @@
-import React, { createContext, useContext, useReducer } from "react";
 import blogReducer, { initialBlogState } from "../reducer/blogReducer";
+import { CreateNewContext } from '../utils';
 
-export const BlogContext = createContext();
+const newContext = CreateNewContext({ reducer: blogReducer, initialState: initialBlogState });
 
-export const useBlogContext = () => {
-    const { state, dispatch } = useContext(BlogContext);
+export const BlogContext = newContext.Context;
 
-    return [state, dispatch]
-};
+export const useBlogContext = newContext.useContextData;
 
-const BlogContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(blogReducer, initialBlogState);
-	return <BlogContext.Provider value={{ state, dispatch }}>{children}</BlogContext.Provider>;
-}
-
-export default BlogContextProvider;
+export default newContext.Provider;
