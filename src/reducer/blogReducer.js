@@ -1,4 +1,3 @@
-import { useReducer } from "react";
 import {
   GET_POSTS,
   GET_POST,
@@ -18,7 +17,7 @@ export const initialBlogState = {
   singleBlog: null,
 };
 
-const blogReducer = (state = initialBlogState, { type, payload }) => {
+export default (state = initialBlogState, { type, payload }) => {
   switch (type) {
     case GET_POSTS:
       return {
@@ -52,8 +51,3 @@ const blogReducer = (state = initialBlogState, { type, payload }) => {
   }
 };
 
-export default () => {
-  const [state, dispatch] = useReducer(blogReducer, initialBlogState);
-
-  return [state, dispatch];
-};

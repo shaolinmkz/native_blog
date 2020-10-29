@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from "react";
-import useBlogReducer from "../reducer/blogReducer";
+import React, { createContext, useContext, useReducer } from "react";
+import blogReducer, { initialBlogState } from "../reducer/blogReducer";
 
 export const BlogContext = createContext();
 
@@ -10,7 +10,7 @@ export const useBlogContext = () => {
 };
 
 const BlogContextProvider = ({ children }) => {
-  const [state, dispatch] = useBlogReducer();
+  const [state, dispatch] = useReducer(blogReducer, initialBlogState);
 	return <BlogContext.Provider value={{ state, dispatch }}>{children}</BlogContext.Provider>;
 }
 

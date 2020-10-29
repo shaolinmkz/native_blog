@@ -12,12 +12,21 @@ function IndexScreen() {
     <View style={{ flex: 1 }}>
       <Button
         title={`ADD POST #${mockId}`}
-        onPress={() => addPost(dispatch, { id: `${mockId}`, title: `Blog Post #${mockId}` })}
+        onPress={() =>
+          addPost(dispatch, { id: `${mockId}`, title: `Blog Post #${mockId}` })
+        }
       />
-      <Button
-        title={`DELETE POST #${mockId - 1}`}
-        onPress={() => deletePost(dispatch, { id: `${mockId - 1}`, title: `Blog Post #${mockId - 1}` })}
-      />
+      {!!state?.blogs?.length && (
+        <Button
+          title={`DELETE POST #${mockId - 1}`}
+          onPress={() =>
+            deletePost(dispatch, {
+              id: `${mockId - 1}`,
+              title: `Blog Post #${mockId - 1}`,
+            })
+          }
+        />
+      )}
       <FlatList
         data={state.blogs}
         keyExtractor={({ id }) => id}
