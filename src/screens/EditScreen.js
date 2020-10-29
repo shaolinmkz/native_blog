@@ -20,7 +20,7 @@ export default ({ navigation }) => {
   const handleSubmit = () => {
     if (id) {
       editPost(dispatch, post);
-      navigation.navigate("IndexScreen");
+      navigation.goBack();
     }
   };
 
@@ -29,7 +29,7 @@ export default ({ navigation }) => {
       const post = state.blogs.find(({ id: blogId }) => blogId === id);
       setPost(post);
     } else {
-      navigation.navigate("IndexScreen");
+      navigation.goBack();
     }
   }, []);
 
