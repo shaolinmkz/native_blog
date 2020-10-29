@@ -3,7 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 import { useBlogContext } from "../context/BlogContext";
 
 const ShowScreen = ({ navigation }) => {
@@ -18,6 +20,18 @@ const ShowScreen = ({ navigation }) => {
       <Text style={styles.content}>{post?.content}</Text>
     </View>
   );
+}
+
+ShowScreen.navigationOptions = ({ navigation }) => {
+  const id = navigation.getParam('id');
+
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('CreateScreen', { id })} style={{ marginRight: 10 }}>
+        <EvilIcons name="pencil" size={35} />
+      </TouchableOpacity>
+    ),
+  };
 }
 
 const styles = StyleSheet.create({
