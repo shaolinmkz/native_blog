@@ -8,9 +8,14 @@ import {
 
 const dummyPost = [
   {
+    id: "2",
+    title: "The Key 🔑 of life",
+    content: 'The key of life has a name written in the sands of time...',
+  },
+  {
     id: "1",
-    title: "God is love ❣️❤️",
-    content: 'Love of God can mean either love for God or love by God. Love for God (philotheia) is associated with the concepts of worship, and devotions towards God...',
+    title: "God is love ❤️",
+    content: 'Love of God can mean either love for God or love by God...',
   },
 ];
 
