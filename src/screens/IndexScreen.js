@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Feather } from "@expo/vector-icons";
 import { addPost, deletePost } from "../actions/blogAction";
 import { useBlogContext } from "../context/BlogContext";
 
@@ -47,6 +47,16 @@ const IndexScreen = ({ navigation }) => {
     </View>
   );
 };
+
+IndexScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('CreateScreen')}>
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
+    ),
+  };
+}
 
 const styles = StyleSheet.create({
   row: {
