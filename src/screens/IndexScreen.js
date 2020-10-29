@@ -11,11 +11,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import { addPost, deletePost } from "../actions/blogAction";
 import { useBlogContext } from "../context/BlogContext";
 
-function IndexScreen() {
+const IndexScreen = ({ navigation }) => {
   const [state, dispatch] = useBlogContext();
 
   const lastId = state?.blogs[0]?.id;
-  const mockId =  lastId ? +lastId + 1 : 1;
+  const mockId = lastId ? +lastId + 1 : 1;
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,17 +30,23 @@ function IndexScreen() {
         data={state.blogs}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => (
-          <View style={styles.row}>
-            <Text>{item?.title}</Text>
-            <TouchableOpacity onPress={() => deletePost(dispatch, { id: item.id })}>
-              <FontAwesome name="trash" style={styles.icon} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ShowScreen", { id: item.id })}
+          >
+            <View style={styles.row}>
+              <Text>{item?.title}</Text>
+              <TouchableOpacity
+                onPress={() => deletePost(dispatch, { id: item.id })}
+              >
+                <FontAwesome name="trash" style={styles.icon} />
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
         )}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   row: {
