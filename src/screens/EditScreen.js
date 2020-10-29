@@ -1,74 +1,43 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Button,
-} from "react-native";
 import { editPost } from "../actions/blogAction";
+import BlogPostForm from "../components/BlogPostForm";
 import { useBlogContext } from "../context/BlogContext";
 
-
 export default ({ navigation }) => {
-  const [post, setPost] =  useState({
-    content: '',
-    title: ''
+  const [post, setPost] = useState({
+    content: "",
+    title: "",
   });
 
-  const id = navigation.getParam('id');
+  const id = navigation.getParam("id");
 
   const [state, dispatch] = useBlogContext();
 
   const handleChange = ({ name, value }) => {
-    setPost(prevState => ({ ...prevState, [name]: value }))
+    setPost((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = () => {
     if (id) {
       editPost(dispatch, post);
-      navigation.navigate('IndexScreen');
+      navigation.navigate("IndexScreen");
     }
   };
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       const post = state.blogs.find(({ id: blogId }) => blogId === id);
       setPost(post);
     } else {
-      navigation.navigate('IndexScreen');
+      navigation.navigate("IndexScreen");
     }
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Enter title:</Text>
-      <TextInput style={styles.input} onChangeText={(value) => handleChange({ name: 'title', value })} value={post.title} />
-      <Text style={styles.label}>Enter context:</Text>
-      <TextInput style={styles.input} onChangeText={(value) => handleChange({ name: 'content', value })} value={post.content} />
-      <Button
-        title={(post.title && post.content) ? "SUBMIT POST" : "DISABLED"}
-        onPress={handleSubmit}
-      />
-    </View>
+    <BlogPostForm
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      post={post}
+    />
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingHorizontal: 10,
-    flex: 1,
-  },
-  input: {
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#000',
-    padding: 5,
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 18,
-    color: 'grey'
-  },
-});
+};
