@@ -23,9 +23,13 @@ const ShowScreen = ({ navigation }) => {
       setPageLoading(false)
     });
 
-    navigation.addListener("didFocus", () => {
+    const listenerRef = navigation.addListener("didFocus", () => {
       getPost(dispatch, id);
     });
+
+    return () => {
+      listenerRef.remove();
+    }
   }, [])
 
   return pageLoading ? (

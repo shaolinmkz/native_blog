@@ -27,9 +27,13 @@ const IndexScreen = ({ navigation }) => {
       setPageLoading(false);
     });
 
-    navigation.addListener("didFocus", () => {
+    const listenerRef = navigation.addListener("didFocus", () => {
       getPosts(dispatch);
     });
+
+    return () => {
+      listenerRef.remove();
+    }
   }, []);
 
   return pageLoading ? (
