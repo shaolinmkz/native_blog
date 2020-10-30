@@ -6,21 +6,8 @@ import {
   DELETE_POST,
 } from "../actionTypes";
 
-const dummyPost = [
-  {
-    id: "2",
-    title: "The Key 🔑 of life",
-    content: 'The key of life has a name written in the sands of time...',
-  },
-  {
-    id: "1",
-    title: "God is love ❤️",
-    content: 'Love of God can mean either love for God or love by God...',
-  },
-];
-
 export const initialBlogState = {
-  blogs: dummyPost,
+  blogs: [],
   singleBlog: null,
 };
 
@@ -34,7 +21,7 @@ export default (state = initialBlogState, { type, payload }) => {
     case GET_POST:
       return {
         ...state,
-        singleBlog: payload,
+        singlePost: payload,
       };
     case ADD_POST:
       return {
@@ -47,6 +34,7 @@ export default (state = initialBlogState, { type, payload }) => {
         blogs: state.blogs.map((data) =>
           data.id === payload.id ? payload : data
         ),
+        singleBlog: payload,
       };
     case DELETE_POST:
       return {
