@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, Feather } from "@expo/vector-icons";
 import { useBlogContext } from "../context/BlogContext";
+import { getPost } from "../actions/blogAction";
 
 const ShowScreen = ({ navigation }) => {
-  const [state] = useBlogContext();
+  const [state, dispatch] = useBlogContext();
+  const [pageLoading, setPageLoading] = useState(true);
   const id = navigation.getParam('id')
 
-  const post = state.blogs.find(({ id: blogId }) => blogId === id)
+  const { singlePost } = state;
 
-  return (
+  useEffect(() => {
+    setPageLoading(true)
+    getPost(dispatch, id)
+    .then(() => {
+      setPageLoading(false)
+    });
+
+    const listenerRef = navigation.addListener("didFocus", () => {
+      getPost(dispatch, id);
+    });
+
+    return () => {
+      listenerRef.remove();
+    }
+  }, [])
+
+  return pageLoading ? (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Feather name="loader" size={100} color="black" />
+    </View>
+  ) : (
     <View style={styles.container}>
-      <Text style={styles.title}>{post?.title}</Text>
-      <Text style={styles.content}>{post?.content}</Text>
+      <Text style={styles.title}>{singlePost?.title}</Text>
+      <Text style={styles.content}>{singlePost?.content}</Text>
     </View>
   );
 }

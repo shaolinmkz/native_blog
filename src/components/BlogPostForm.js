@@ -12,6 +12,7 @@ export default ({
   handleSubmit,
   handleChange,
   post,
+  saving,
 }) => {
 
   return (
@@ -21,8 +22,8 @@ export default ({
       <Text style={styles.label}>Enter context:</Text>
       <TextInput style={styles.input} onChangeText={(value) => handleChange({ name: 'content', value })} value={post.content} />
       <Button
-        title={(post.title && post.content) ? "SAVE POST" : "DISABLED"}
-        onPress={handleSubmit}
+        title={saving ? 'SAVING' : ((post.title && post.content) ? "SAVE POST" : "DISABLED")}
+        onPress={saving ? () => {} : handleSubmit}
       />
     </View>
   );

@@ -8,28 +8,30 @@ export default ({ navigation }) => {
     content: "",
     title: "",
   });
+  const [saving, setSaving] = useState(false);
 
   const id = navigation.getParam("id");
 
-  const [state, dispatch] = useBlogContext();
+  const [{ singlePost }, dispatch] = useBlogContext();
 
   const handleChange = ({ name, value }) => {
     setPost((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = () => {
-    if (id) {
-      editPost(dispatch, post);
-      navigation.goBack();
-    }
+    setSaving(true);
+    editPost(dispatch, post)
+    .then(() => {
+      setSaving(false);
+      navigation.pop();
+    })
   };
 
   useEffect(() => {
     if (id) {
-      const post = state.blogs.find(({ id: blogId }) => blogId === id);
-      setPost(post);
+      setPost(singlePost);
     } else {
-      navigation.goBack();
+      navigation.pop();
     }
   }, []);
 
@@ -38,6 +40,7 @@ export default ({ navigation }) => {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       post={post}
+      saving={saving}
     />
   );
 };

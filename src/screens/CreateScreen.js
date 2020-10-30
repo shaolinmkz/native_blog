@@ -9,10 +9,9 @@ export default ({ navigation }) => {
     title: "",
   });
 
-  const [state, dispatch] = useBlogContext();
+  const [saving, setSaving] = useState(false);
 
-  const lastId = state?.blogs[0]?.id;
-  const newId = lastId ? +lastId + 1 : 1;
+  const [, dispatch] = useBlogContext();
 
   const handleChange = ({ name, value }) => {
     setPost((prevState) => ({ ...prevState, [name]: value }));
@@ -20,8 +19,12 @@ export default ({ navigation }) => {
 
   const handleSubmit = () => {
     if (post.title && post.content) {
-      addPost(dispatch, { id: `${newId}`, ...post });
-      navigation.navigate("IndexScreen");
+      setSaving(true);
+      addPost(dispatch, post)
+      .then(() => {
+        setSaving(false);
+        navigation.pop();
+      })
     }
   };
 
@@ -30,6 +33,7 @@ export default ({ navigation }) => {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       post={post}
+      saving={saving}
     />
   );
 };
